@@ -20,3 +20,6 @@ snapper-gui-git
 ttf-meslo
 vde2
 zoom
+miniconda3
+ollama-bin
+rstudio-desktop-bin

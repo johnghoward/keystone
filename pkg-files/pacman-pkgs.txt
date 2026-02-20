@@ -63,6 +63,7 @@ lzop
 m4
 make
 neofetch
+fastfetch
 ntfs-3g
 ntp
 openbsd-netcat
@@ -105,3 +106,11 @@ zip
 zsh
 zsh-syntax-highlighting
 zsh-autosuggestions
+r
+python
+nodejs
+npm
+uv
+jupyter-notebook
+jupyter-widgetsnbextension
+jupyterlab

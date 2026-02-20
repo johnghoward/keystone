@@ -129,12 +129,12 @@ logo () {
 # This will be shown on every set as user is progressing
 echo -ne "
 -------------------------------------------------------------------------
- █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
+  ██████╗ ██████╗ ███████╗███╗   ██╗ █████╗ ██████╗  ██████╗██╗  ██╗
+ ██╔═══██╗██╔══██╗██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔════╝██║  ██║
+ ██║   ██║██████╔╝█████╗  ██╔██╗ ██║███████║██████╔╝██║     ███████║
+ ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██╔══██║██╔══██╗██║     ██╔══██║
+ ╚██████╔╝██║     ███████╗██║ ╚████║██║  ██║██║  ██║╚██████╗██║  ██║
+  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
 ------------------------------------------------------------------------
             Please select presetup settings for your system              
 ------------------------------------------------------------------------
@@ -281,10 +281,23 @@ aurhelper () {
 desktopenv () {
   # Let the user choose Desktop Enviroment from predefined list
   echo -ne "Please select your desired Desktop Enviroment:\n"
-  options=(gnome kde cinnamon xfce mate budgie lxde deepin openbox server)
+  options=(gnome kde cinnamon xfce mate budgie lxde deepin openbox minimalist server)
   select_option $? 4 "${options[@]}"
   desktop_env=${options[$?]}
   set_option DESKTOP_ENV $desktop_env
+}
+
+wallpapers () {
+  echo -ne "Please select your desired wallpaper style:\n"
+  options=("Arch Dark" "Modern Blue" "Minimalist Gray" "Cyberpunk" "Default")
+  select_option $? 1 "${options[@]}"
+  case $? in
+    0) set_option WALLPAPER "arch-dark";;
+    1) set_option WALLPAPER "modern-blue";;
+    2) set_option WALLPAPER "minimal-gray";;
+    3) set_option WALLPAPER "cyberpunk";;
+    4) set_option WALLPAPER "default";;
+  esac
 }
 
 installtype () {
@@ -297,6 +310,16 @@ installtype () {
   set_option INSTALL_TYPE $install_type
 }
 
+geminicli () {
+  echo -ne "Would you like to install Gemini CLI? (Professional AI interaction tool)\n"
+  options=("Yes" "No")
+  select_option $? 1 "${options[@]}"
+  case $? in
+    0) set_option GEMINI_CLI "YES";;
+    1) set_option GEMINI_CLI "NO";;
+  esac
+}
+
 # More features in future
 # language (){}
 
@@ -307,16 +330,23 @@ userinfo
 clear
 logo
 desktopenv
-# Set fixed options that installation uses if user choses server installation
-set_option INSTALL_TYPE MINIMAL
-set_option AUR_HELPER NONE
-if [[ ! $desktop_env == server ]]; then
+# Set fixed options that installation uses if user choses server or minimalist installation
+if [[ $desktop_env == server || $desktop_env == minimalist ]]; then
+  set_option INSTALL_TYPE MINIMAL
+  set_option AUR_HELPER none
+else
   clear
   logo
   aurhelper
   clear
   logo
   installtype
+  clear
+  logo
+  geminicli
+  clear
+  logo
+  wallpapers
 fi
 clear
 logo
