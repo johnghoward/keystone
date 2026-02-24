@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 echo -ne "
 -------------------------------------------------------------------------
-  ██████╗ ██████╗ ███████╗███╗   ██╗ █████╗ ██████╗  ██████╗██╗  ██╗
- ██╔═══██╗██╔══██╗██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔════╝██║  ██║
- ██║   ██║██████╔╝█████╗  ██╔██╗ ██║███████║██████╔╝██║     ███████║
- ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██╔══██║██╔══██╗██║     ██╔══██║
- ╚██████╔╝██║     ███████╗██║ ╚████║██║  ██║██║  ██║╚██████╗██║  ██║
-  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
+  ██╗  ██╗███████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ██╗███████╗
+ ██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔═══██╗████╗  ██║██╔════╝
+ █████╔╝ █████╗   ╚████╔╝ ███████╗   ██║   ██║   ██║██╔██╗ ██║█████╗  
+ ██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║   ██║   ██║   ██║██║╚██╗██║██╔══╝  
+ ██║  ██╗███████╗   ██║   ███████║   ██║   ╚██████╔╝██║ ╚████║███████╗
+ ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 -------------------------------------------------------------------------
                     Automated Arch Linux Installer
-                        SCRIPTHOME: OpenArch
+                        SCRIPTHOME: Keystone
 -------------------------------------------------------------------------
 
 Installing AUR Softwares
 "
-source $HOME/OpenArch/configs/setup.conf
+source $HOME/Keystone/configs/setup.conf
 
   cd ~
   mkdir "/home/$USERNAME/.cache"
@@ -23,7 +23,7 @@ source $HOME/OpenArch/configs/setup.conf
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
   ln -sf "$HOME/zsh/.zshrc" "$HOME/.zshrc"
 
-sed -n '/'$INSTALL_TYPE'/q;p' ~/OpenArch/pkg-files/${DESKTOP_ENV}.txt | while read line
+sed -n '/'$INSTALL_TYPE'/q;p' ~/Keystone/pkg-files/${DESKTOP_ENV}.txt | while read line
 do
   if [[ ${line} == '--END OF MINIMAL INSTALL--' ]]
   then
@@ -42,7 +42,7 @@ if [[ ! $AUR_HELPER == none ]]; then
   makepkg -si --noconfirm
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
   # stop the script and move on, not installing any more packages below that line
-  sed -n '/'$INSTALL_TYPE'/q;p' ~/OpenArch/pkg-files/aur-pkgs.txt | while read line
+  sed -n '/'$INSTALL_TYPE'/q;p' ~/Keystone/pkg-files/aur-pkgs.txt | while read line
   do
     if [[ ${line} == '--END OF MINIMAL INSTALL--' ]]; then
       # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
@@ -58,9 +58,9 @@ export PATH=$PATH:~/.local/bin
 # Theming DE if user chose FULL installation
 if [[ $INSTALL_TYPE == "FULL" ]]; then
   if [[ $DESKTOP_ENV == "kde" ]]; then
-    cp -r ~/OpenArch/configs/.config/* ~/.config/
+    cp -r ~/Keystone/configs/.config/* ~/.config/
     pip install konsave
-    konsave -i ~/OpenArch/configs/kde.knsv
+    konsave -i ~/Keystone/configs/kde.knsv
     sleep 1
     konsave -a kde
   elif [[ $DESKTOP_ENV == "openbox" ]]; then

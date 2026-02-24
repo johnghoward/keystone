@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 echo -ne "
 -------------------------------------------------------------------------
-  ██████╗ ██████╗ ███████╗███╗   ██╗ █████╗ ██████╗  ██████╗██╗  ██╗
- ██╔═══██╗██╔══██╗██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔════╝██║  ██║
- ██║   ██║██████╔╝█████╗  ██╔██╗ ██║███████║██████╔╝██║     ███████║
- ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██╔══██║██╔══██╗██║     ██╔══██║
- ╚██████╔╝██║     ███████╗██║ ╚████║██║  ██║██║  ██║╚██████╗██║  ██║
-  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
+  ██╗  ██╗███████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ██╗███████╗
+ ██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔═══██╗████╗  ██║██╔════╝
+ █████╔╝ █████╗   ╚████╔╝ ███████╗   ██║   ██║   ██║██╔██╗ ██║█████╗  
+ ██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║   ██║   ██║   ██║██║╚██╗██║██╔══╝  
+ ██║  ██╗███████╗   ██║   ███████║   ██║   ╚██████╔╝██║ ╚████║███████╗
+ ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 -------------------------------------------------------------------------
                     Automated Arch Linux Installer
-                        SCRIPTHOME: OpenArch
+                        SCRIPTHOME: Keystone
 -------------------------------------------------------------------------
 
 Final Setup and Configurations
 GRUB EFI Bootloader Install & Check
 "
-source ${HOME}/OpenArch/configs/setup.conf
+source ${HOME}/Keystone/configs/setup.conf
 
 if [[ -d "/sys/firmware/efi" ]]; then
     grub-install --efi-directory=/boot ${DISK}
@@ -40,7 +40,7 @@ if [[ ! $DESKTOP_ENV == "server" && ! $DESKTOP_ENV == "minimalist" ]]; then
 echo -e "Creating the theme directory..."
 mkdir -p "${THEME_DIR}/${THEME_NAME}"
 echo -e "Copying the theme..."
-cd ${HOME}/OpenArch
+cd ${HOME}/Keystone
 cp -a configs/boot/grub/themes/${THEME_NAME}/* ${THEME_DIR}/${THEME_NAME}
 echo -e "Backing up Grub config..."
 cp -an /etc/default/grub /etc/default/grub.bak
@@ -116,11 +116,11 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 
-SNAPPER_CONF="$HOME/OpenArch/configs/etc/snapper/configs/root"
+SNAPPER_CONF="$HOME/Keystone/configs/etc/snapper/configs/root"
 mkdir -p /etc/snapper/configs/
 cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
 
-SNAPPER_CONF_D="$HOME/OpenArch/configs/etc/conf.d/snapper"
+SNAPPER_CONF_D="$HOME/Keystone/configs/etc/conf.d/snapper"
 mkdir -p /etc/conf.d/
 cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
 
@@ -132,7 +132,7 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ! $DESKTOP_ENV == "server" && ! $DESKTOP_ENV == "minimalist" ]]; then
-PLYMOUTH_THEMES_DIR="$HOME/OpenArch/configs/usr/share/plymouth/themes"
+PLYMOUTH_THEMES_DIR="$HOME/Keystone/configs/usr/share/plymouth/themes"
 PLYMOUTH_THEME="arch-glow" # can grab from config later if we allow selection
 mkdir -p /usr/share/plymouth/themes
 echo 'Installing Plymouth theme...'
@@ -162,7 +162,7 @@ echo -ne "
                     Cleaning
 -------------------------------------------------------------------------
 "
-# OpenArch created by John G. Howard, inspired by ArchTitus.
+# Keystone created by John G. Howard, inspired by ArchTitus.
 # Remove no password sudo rights
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -170,8 +170,8 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: A
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-rm -r $HOME/OpenArch
-rm -r /home/$USERNAME/OpenArch
+rm -r $HOME/Keystone
+rm -r /home/$USERNAME/Keystone
 
 # Replace in the same state
 cd $pwd

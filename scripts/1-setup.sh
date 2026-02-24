@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 echo -ne "
 -------------------------------------------------------------------------
-  ██████╗ ██████╗ ███████╗███╗   ██╗ █████╗ ██████╗  ██████╗██╗  ██╗
- ██╔═══██╗██╔══██╗██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔════╝██║  ██║
- ██║   ██║██████╔╝█████╗  ██╔██╗ ██║███████║██████╔╝██║     ███████║
- ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██╔══██║██╔══██╗██║     ██╔══██║
- ╚██████╔╝██║     ███████╗██║ ╚████║██║  ██║██║  ██║╚██████╗██║  ██║
-  ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
+  ██╗  ██╗███████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ██╗███████╗
+ ██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔═══██╗████╗  ██║██╔════╝
+ █████╔╝ █████╗   ╚████╔╝ ███████╗   ██║   ██║   ██║██╔██╗ ██║█████╗  
+ ██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║   ██║   ██║   ██║██║╚██╗██║██╔══╝  
+ ██║  ██╗███████╗   ██║   ███████║   ██║   ╚██████╔╝██║ ╚████║███████╗
+ ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 -------------------------------------------------------------------------
                     Automated Arch Linux Installer
-                        SCRIPTHOME: OpenArch
+                        SCRIPTHOME: Keystone
 -------------------------------------------------------------------------
 "
-source $HOME/OpenArch/configs/setup.conf
+source $HOME/Keystone/configs/setup.conf
 echo -ne "
 -------------------------------------------------------------------------
                     Network Setup 
@@ -75,9 +75,9 @@ echo -ne "
 # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
 # stop the script and move on, not installing any more packages below that line
 if [[ $DESKTOP_ENV == "server" || $DESKTOP_ENV == "minimalist" ]]; then
-  PKG_FILE=$HOME/OpenArch/pkg-files/server.txt
+  PKG_FILE=$HOME/Keystone/pkg-files/server.txt
 else
-  PKG_FILE=$HOME/OpenArch/pkg-files/pacman-pkgs.txt
+  PKG_FILE=$HOME/Keystone/pkg-files/pacman-pkgs.txt
 fi
 
 sed -n '/'$INSTALL_TYPE'/q;p' $PKG_FILE | while read line
@@ -126,7 +126,7 @@ elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
 fi
 fi
 #SETUP IS WRONG THIS IS RUN
-if ! source $HOME/OpenArch/configs/setup.conf; then
+if ! source $HOME/Keystone/configs/setup.conf; then
 	# Loop through user input until the user gives a valid username
 	while true
 	do 
@@ -140,11 +140,11 @@ if ! source $HOME/OpenArch/configs/setup.conf; then
 		echo "Incorrect username."
 	done 
 # convert name to lowercase before saving to setup.conf
-echo "USERNAME=${username,,}" >> ${HOME}/OpenArch/configs/setup.conf
+echo "USERNAME=${username,,}" >> ${HOME}/Keystone/configs/setup.conf
 
     #Set Password
     read -p "Please enter password:" password
-echo "PASSWORD=${password}" >> ${HOME}/OpenArch/configs/setup.conf
+echo "PASSWORD=${password}" >> ${HOME}/Keystone/configs/setup.conf
 
     # Loop through user input until the user gives a valid hostname, but allow the user to force save 
 	while true
@@ -163,7 +163,7 @@ echo "PASSWORD=${password}" >> ${HOME}/OpenArch/configs/setup.conf
 		fi 
 	done 
 
-    echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/OpenArch/configs/setup.conf
+    echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/Keystone/configs/setup.conf
 fi
 echo -ne "
 -------------------------------------------------------------------------
@@ -179,9 +179,9 @@ if [ $(whoami) = "root"  ]; then
     echo "$USERNAME:$PASSWORD" | chpasswd
     echo "$USERNAME password set"
 
-	cp -R $HOME/OpenArch /home/$USERNAME/
-    chown -R $USERNAME: /home/$USERNAME/OpenArch
-    echo "OpenArch copied to home directory"
+	cp -R $HOME/Keystone /home/$USERNAME/
+    chown -R $USERNAME: /home/$USERNAME/Keystone
+    echo "Keystone copied to home directory"
 
 # enter $NAME_OF_MACHINE to /etc/hostname
 	echo $NAME_OF_MACHINE > /etc/hostname

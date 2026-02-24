@@ -1,19 +1,19 @@
-# 🚀 OpenArch: The Ultimate Automated Arch Linux Installer
+# 🚀 Keystone: The Ultimate Automated Arch Linux Installer
 
 <p align="center">
-  <img src="titusarch.png" alt="OpenArch Logo" width="600px" />
+  <img src="keystone.png" alt="Keystone Logo" width="600px" />
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Arch Linux](https://img.shields.io/badge/OS-Arch%20Linux-blue?logo=arch-linux)](https://archlinux.org/)
 
-**OpenArch** is a streamlined, highly customizable Arch Linux installation script designed for developers, sysadmins, and power users. Inspired by the foundation of ArchTitus, OpenArch has been evolved to meet the demands of modern computing in 2026.
+**Keystone** is a streamlined, highly customizable Arch Linux installation script designed for developers, sysadmins, and power users. Inspired by the foundation of ArchTitus, Keystone has been evolved to meet the demands of modern computing in 2026.
 
 ---
 
-## 🌟 What makes OpenArch different?
+## 🌟 What makes Keystone different?
 
-OpenArch isn't just a script; it's a complete deployment solution. Whether you're building a high-performance workstation or a lean, efficient server, OpenArch handles the heavy lifting with surgical precision.
+Keystone isn't just a script; it's a complete deployment solution. Whether you're building a high-performance workstation or a lean, efficient server, Keystone handles the heavy lifting with surgical precision.
 
 ### Key Features:
 *   **Multiple Desktop Environments:** One-click setup for KDE Plasma, GNOME, XFCE, Cinnamon, Mate, Budgie, LXDE, Deepin, and Openbox.
@@ -43,9 +43,9 @@ Run the following commands to start the automated installer:
 
 ```bash
 pacman -Sy git
-git clone https://github.com/johnghoward/openarch
-cd openarch
-./openarch.sh
+git clone https://github.com/johnghoward/keystone
+cd keystone
+./keystone.sh
 ```
 
 ---
@@ -62,7 +62,7 @@ During the installation, you will be prompted to choose:
 
 ## 📂 Project Structure
 
-*   `openarch.sh`: The main entry point.
+*   `keystone.sh`: The main entry point.
 *   `scripts/`: Modular scripts for pre-install, setup, user configuration, and post-install.
 *   `pkg-files/`: Curated package lists for every environment and the server profile.
 *   `configs/`: Optimized configuration files for various system components.
@@ -83,5 +83,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <p align="center">
-  <i>OpenArch: Your Arch, Your Way.</i>
+  <i>Keystone: Your Arch, Your Way.</i>
 </p>
