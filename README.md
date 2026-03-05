@@ -1,5 +1,8 @@
 # 🚀 Keystone: The Ultimate Automated Arch Linux Installer
 
+> [!WARNING]
+> **NOT MAINTAINED:** This repository is no longer actively maintained. Please **clone** or **fork** this repository if you wish to use or modify it.
+
 <p align="center">
   <img src="keystone.png" alt="Keystone Logo" width="600px" />
 </p>
@@ -72,7 +75,8 @@ During the installation, you will be prompted to choose:
 ## 🤝 Credits & Inspiration
 
 *   **Original Foundation:** Based on the excellent work of [ArchTitus](https://github.com/ChrisTitusTech/ArchTitus) by Chris Titus.
-*   **Created and Maintained by:** John G. Howard.
+*   **Status:** NOT MAINTAINED, please either clone or fork this repository.
+*   **Original Author:** John G. Howard.
 
 ---
 
