@@ -4,7 +4,7 @@
 > **NOT MAINTAINED:** This repository is no longer actively maintained. Please **clone** or **fork** this repository if you wish to use or modify it.
 
 <p align="center">
-  <img src="keystone_green_teal.png" alt="Keystone Logo" width="600px" />
+  <img src="keystone.png" alt="Keystone Logo" width="600px" />
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
