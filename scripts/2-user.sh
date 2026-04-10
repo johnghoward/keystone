@@ -1,131 +1,80 @@
 #!/usr/bin/env bash
-echo -ne "
--------------------------------------------------------------------------
-  ██╗  ██╗███████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ██╗███████╗
- ██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔═══██╗████╗  ██║██╔════╝
- █████╔╝ █████╗   ╚████╔╝ ███████╗   ██║   ██║   ██║██╔██╗ ██║█████╗  
- ██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║   ██║   ██║   ██║██║╚██╗██║██╔══╝  
- ██║  ██╗███████╗   ██║   ███████║   ██║   ╚██████╔╝██║ ╚████║███████╗
- ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝
--------------------------------------------------------------------------
-                    Automated Arch Linux Installer
-                        SCRIPTHOME: Keystone
--------------------------------------------------------------------------
 
-Installing AUR Softwares
-"
-source $HOME/Keystone/configs/setup.conf
+# Source Library
+source "/home/$USER/keystone2/scripts/lib.sh"
+source "/home/$USER/keystone2/configs/setup.conf"
 
-  cd ~
-  mkdir "/home/$USERNAME/.cache"
-  touch "/home/$USERNAME/.cache/zshhistory"
-  git clone "https://github.com/ChrisTitusTech/zsh"
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-  ln -sf "$HOME/zsh/.zshrc" "$HOME/.zshrc"
+echo -e "${GREEN}--- User-Space Configuration ---${NC}"
 
-sed -n '/'$INSTALL_TYPE'/q;p' ~/Keystone/pkg-files/${DESKTOP_ENV}.txt | while read line
-do
-  if [[ ${line} == '--END OF MINIMAL INSTALL--' ]]
-  then
-    # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
-    continue
-  fi
-  echo "INSTALLING: ${line}"
-  sudo pacman -S --noconfirm --needed ${line}
-done
+# 1. ZSH Setup (Professional Shell)
+cd ~
+git clone --depth=1 "https://github.com/ChrisTitusTech/zsh" ~/zsh_config
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+ln -sf "$HOME/zsh_config/.zshrc" "$HOME/.zshrc"
+echo "alias ls='ls --color=auto'" >> ~/.zshrc
 
-
+# 2. AUR Helper Installation
 if [[ ! $AUR_HELPER == none ]]; then
+  echo -e "${BLUE}Installing AUR Helper: $AUR_HELPER${NC}"
   cd ~
   git clone "https://aur.archlinux.org/$AUR_HELPER.git"
   cd ~/$AUR_HELPER
   makepkg -si --noconfirm
-  # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
-  # stop the script and move on, not installing any more packages below that line
-  sed -n '/'$INSTALL_TYPE'/q;p' ~/Keystone/pkg-files/aur-pkgs.txt | while read line
-  do
-    if [[ ${line} == '--END OF MINIMAL INSTALL--' ]]; then
-      # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
-      continue
-    fi
-    echo "INSTALLING: ${line}"
-    $AUR_HELPER -S --noconfirm --needed ${line}
-  done
-fi
-
-export PATH=$PATH:~/.local/bin
-
-# Theming DE if user chose FULL installation
-if [[ $INSTALL_TYPE == "FULL" ]]; then
-  if [[ $DESKTOP_ENV == "kde" ]]; then
-    cp -r ~/Keystone/configs/.config/* ~/.config/
-    pip install konsave
-    konsave -i ~/Keystone/configs/kde.knsv
-    sleep 1
-    konsave -a kde
-  elif [[ $DESKTOP_ENV == "openbox" ]]; then
-    cd ~
-    git clone https://github.com/stojshic/dotfiles-openbox
-    ./dotfiles-openbox/install-titus.sh
-  fi
-fi
-
-# 2026 Developer Tools Setup
-echo -ne "
--------------------------------------------------------------------------
-                    Setting up Developer Tools (Python/Node)
--------------------------------------------------------------------------
-"
-
-# Install Gemini CLI if requested
-if [[ $GEMINI_CLI == "YES" ]]; then
-  echo "Installing Gemini CLI..."
-  sudo npm install -g @google/gemini-cli
-fi
-
-# Initialize miniconda if installed
-if [ -d "/opt/miniconda3" ]; then
-    /opt/miniconda3/bin/conda init bash
-    /opt/miniconda3/bin/conda init zsh
-fi
-
-# Apply Wallpaper if selected
-if [[ ! -z $WALLPAPER && ! $WALLPAPER == "default" ]]; then
-  echo "Applying selected wallpaper: $WALLPAPER"
-  mkdir -p ~/Pictures/Wallpapers
-  case $WALLPAPER in
-    "arch-dark") WP_URL="https://wallpapercave.com/wp/wp6658145.jpg" ;;
-    "modern-blue") WP_URL="https://wallpapercave.com/wp/wp6658156.jpg" ;;
-    "minimal-gray") WP_URL="https://wallpapercave.com/wp/wp2519721.jpg" ;;
-    "cyberpunk") WP_URL="https://wallpapercave.com/wp/wp4411649.jpg" ;;
-  esac
   
-  if [[ ! -z $WP_URL ]]; then
-    curl -L $WP_URL -o ~/Pictures/Wallpapers/background.jpg
-    
-    if [[ $DESKTOP_ENV == "kde" ]]; then
-      # KDE wallpaper setting (requires plasma-apply-wallpaper-image from plasma-desktop)
-      /usr/lib/plasma-apply-wallpaper-image ~/Pictures/Wallpapers/background.jpg
-    elif [[ $DESKTOP_ENV == "gnome" ]]; then
-      gsettings set org.gnome.desktop.background picture-uri "file:///home/$USERNAME/Pictures/Wallpapers/background.jpg"
-      gsettings set org.gnome.desktop.background picture-uri-dark "file:///home/$USERNAME/Pictures/Wallpapers/background.jpg"
-    elif [[ $DESKTOP_ENV == "xfce" ]]; then
-      property=$(xfconf-query -c xfce4-desktop -l | grep "last-image" | head -n 1)
-      xfconf-query -c xfce4-desktop -p "$property" -s ~/Pictures/Wallpapers/background.jpg
-    fi
+  # Install professional developer suite tools via AUR
+  if [[ $DEV_XAMPP == "YES" ]]; then
+    $AUR_HELPER -S --noconfirm --needed xampp
+  fi
+  if [[ $DEV_OPENCLAW == "YES" ]]; then
+    $AUR_HELPER -S --noconfirm --needed openclaw-git
   fi
 fi
 
-# Create a default python venv in home
-python -m venv ~/dev-venv
-echo "source ~/dev-venv/bin/activate" >> ~/.bashrc
-echo "source ~/dev-venv/bin/activate" >> ~/.zshrc
+# 3. Modern Tooling with UV (2026 Developer Standards)
+echo -e "${BLUE}Setting up Modern Tooling (uv/uvx)...${NC}"
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source $HOME/.cargo/env
 
-echo "Developer tools (uv, Node.js, Python Venv, Conda) configured."
+# Install Gemini CLI via UVX (Isolated & Fast)
+if [[ $DEV_GEMINI == "YES" ]]; then
+  echo "Setting up Gemini CLI alias..."
+  echo "alias gemini='uvx @google/gemini-cli'" >> ~/.zshrc
+  echo "alias gemini='uvx @google/gemini-cli'" >> ~/.bashrc
+fi
 
-echo -ne "
--------------------------------------------------------------------------
-                    SYSTEM READY FOR 3-post-setup.sh
--------------------------------------------------------------------------
-"
-exit
+# 4. Standard Repos Developer Tools
+echo -e "${BLUE}Installing Standard Repo Tools...${NC}"
+S_TOOLS=()
+[[ $DEV_R == "YES" ]] && S_TOOLS+=("r")
+[[ $DEV_SQLITE == "YES" ]] && S_TOOLS+=("sqlite")
+[[ $DEV_OLLAMA == "YES" ]] && S_TOOLS+=("ollama")
+
+if [[ ${#S_TOOLS[@]} -gt 0 ]]; then
+  sudo pacman -S --noconfirm --needed "${S_TOOLS[@]}"
+  if [[ $DEV_OLLAMA == "YES" ]]; then
+    sudo systemctl enable --now ollama.service
+  fi
+fi
+
+# 5. Profile Export Feature (New)
+if [[ $PROFILE_EXPORT == "YES" ]]; then
+  echo -e "${GREEN}Exporting Profile Template...${NC}"
+  mkdir -p ~/keystone_profiles
+  cp /home/$USER/keystone2/configs/setup.conf ~/keystone_profiles/custom_profile.conf
+  echo "Profile saved to ~/keystone_profiles/custom_profile.conf"
+fi
+
+# 5.5 Setup Keystone Companion (React Dashboard)
+echo -e "${BLUE}Setting up Keystone Companion App...${NC}"
+cp -R /home/$USER/keystone2/companion-app ~/companion-app
+printf "alias companion='cd ~/companion-app && npm run dev'\n" >> ~/.zshrc
+echo "To start the dashboard after install, run 'companion' in your terminal." > ~/companion-app/START_HERE.txt
+
+# 6. Apply Wallpaper and Theming (Professional Finish)
+if [[ $DESKTOP_ENV == "kde" && $INSTALL_TYPE == "FULL" ]]; then
+    pip install --user konsave
+    konsave -i /home/$USER/keystone2/configs/kde.knsv
+    konsave -a kde
+fi
+
+echo -e "${GREEN}--- User-Space Complete ---${NC}"
