@@ -1,82 +1,79 @@
-# 🚀 Keystone: The Ultimate Automated Arch Linux Installer
+# 🚀 Keystone2: The Professional Arch Linux Developer Suite (2026)
 
-> [!WARNING]
-> **NOT MAINTAINED:** This repository is no longer actively maintained. Please **clone** or **fork** this repository if you wish to use or modify it.
+> [!IMPORTANT]
+> **MODERNIZED:** This repository has been refactored into **Keystone2**, a high-performance, interactive Arch Linux installation suite designed for the modern developer.
 
 <p align="center">
-  <img src="keystone.png" alt="Keystone Logo" width="600px" />
+  <img src="keystone_green_teal.png" alt="Keystone2 Logo" width="600px" />
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Arch Linux](https://img.shields.io/badge/OS-Arch%20Linux-blue?logo=arch-linux)](https://archlinux.org/)
 
-**Keystone** is a streamlined, highly customizable Arch Linux installation script designed for developers, sysadmins, and power users. Inspired by the foundation of ArchTitus, Keystone has been evolved to meet the demands of modern computing in 2026.
+**Keystone2** is a professional-grade, interactive Arch Linux deployment suite. It moves beyond simple scripting to provide a polished, menu-driven experience (powered by `whiptail`) for building high-end workstations and AI-ready development environments.
 
 ---
 
-## 🌟 What makes Keystone different?
+## 🌟 What's New in Keystone2?
 
-Keystone isn't just a script; it's a complete deployment solution. Whether you're building a high-performance workstation or a lean, efficient server, Keystone handles the heavy lifting with surgical precision.
+Keystone2 introduces significant architectural improvements and modern tooling for the 2026 developer landscape.
 
 ### Key Features:
-*   **Multiple Desktop Environments:** One-click setup for KDE Plasma, GNOME, XFCE, Cinnamon, Mate, Budgie, LXDE, Deepin, and Openbox.
-*   **NEW: Server & Minimalist Profiles:** Optimized CLI-only installations that skip GUI bloat, graphics drivers, and unnecessary services.
-*   **Advanced Filesystem Support:** Native support for **BTRFS** with automated subvolume layout and **LUKS** encryption.
-*   **Automated Snapshots:** Pre-configured **Snapper** setup for instant system rollbacks.
-*   **2026 Developer Stack:** Pre-installed modern tools like `uv`, `Node.js`, `Python venv`, and the `Gemini CLI`.
-*   **Custom Aesthetics:** Built-in wallpaper selection and automated theming for Grub, Plymouth, and your chosen Desktop Environment.
-*   **AI Integrated:** Optional one-click installation of `Ollama` for local LLM execution.
+*   **Interactive TUI:** A polished, user-friendly interface using `whiptail` for all configuration steps.
+*   **2026 Developer Suite:** Integrated support for `uv` (Python), `Ollama` (Local AI), `Gemini CLI`, and more.
+*   **Keystone Companion App:** A built-in React-based dashboard for managing your system post-install.
+*   **Profile Export:** Save your installation configuration as a reusable template for future deployments.
+*   **Advanced Hardware Logic:** Automated detection and optimized driver installation for NVIDIA (DKMS), AMD, and Intel.
+*   **Security First:** Native **LUKS** encryption support integrated directly into the BTRFS subvolume workflow.
+*   **Modern Shell:** Pre-configured ZSH with `powerlevel10k` and automated alias management.
 
 ---
 
 ## 🛠️ Installation Instructions
 
 ### 1. Boot the Arch Linux ISO
-Download the latest Arch ISO from [archlinux.org](https://archlinux.org/download/) and boot from your installation media.
+Download the latest Arch ISO from [archlinux.org](https://archlinux.org/download/) and boot your system.
 
 ### 2. Connect to the Internet
-Ensure you have an active internet connection. For Wi-Fi:
-```bash
-iwctl
-# station device connect SSID
-```
+Ensure you have an active internet connection. For Wi-Fi, use `iwctl`.
 
-### 3. Clone and Execute
-Run the following commands to start the automated installer:
+### 3. Run the Keystone2 Installer
+Execute the following one-liner to clone and start the interactive setup:
 
 ```bash
-pacman -Sy git
-git clone https://github.com/johnghoward/keystone
-cd keystone
+pacman -Sy --noconfirm git && \
+git clone https://github.com/johnghoward/keystone keystone2 && \
+cd keystone2 && \
 ./keystone.sh
 ```
 
 ---
 
-## 🎨 Customization Options
+## 🎨 Professional Developer Suite
 
-During the installation, you will be prompted to choose:
-*   **Environment:** Choose from 10+ Desktop Environments or the new **Server** and **Minimalist** CLI modes.
-*   **Installation Type:** **Full** (apps, themes, and tools) or **Minimal** (just the essentials).
-*   **Wallpaper:** Select from curated styles including *Arch Dark, Modern Blue, Minimalist Gray,* and *Cyberpunk*.
-*   **AUR Helper:** Choose your preferred helper (`yay`, `paru`, etc.) or none.
+During setup, you can toggle specific tools for your stack:
+*   **AI/LLM:** Ollama (Local AI) and Gemini CLI.
+*   **Web/Data:** XAMPP, SQLite, and R Statistical Suite.
+*   **Tooling:** `uv` and `uvx` for lightning-fast Python management.
+*   **Dashboard:** The **Keystone Companion** (React) dashboard for system monitoring.
 
 ---
 
 ## 📂 Project Structure
 
-*   `keystone.sh`: The main entry point.
-*   `scripts/`: Modular scripts for pre-install, setup, user configuration, and post-install.
-*   `pkg-files/`: Curated package lists for every environment and the server profile.
-*   `configs/`: Optimized configuration files for various system components.
+*   `keystone.sh`: The main entry point and orchestrator.
+*   `scripts/lib.sh`: Centralized UI and execution library.
+*   `scripts/startup.sh`: Interactive configuration and profile generator.
+*   `companion-app/`: React-based system management dashboard.
+*   `configs/`: Optimized configurations for KDE, ZSH, and system services.
 
 ---
 
-## 🤝 Credits & Inspiration
+## 🤝 Credits & Evolution
 
-*   **Original Foundation:** Based on the excellent work of [ArchTitus](https://github.com/ChrisTitusTech/ArchTitus) by Chris Titus.
-*   **Status:** NOT MAINTAINED, please either clone or fork this repository.
-*   **Original Author:** John G. Howard.
+*   **Original Foundation:** Based on [ArchTitus](https://github.com/ChrisTitusTech/ArchTitus) by Chris Titus.
+*   **Evolution:** Modernized and expanded by John G. Howard to meet 2026 standards.
+*   **Status:** Active development. Contributions are welcome!
 
 ---
 
@@ -87,5 +84,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <p align="center">
-  <i>Keystone: Your Arch, Your Way.</i>
+  <i>Keystone2: Professionalism. Performance. Precision.</i>
 </p>
